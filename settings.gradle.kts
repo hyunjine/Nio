@@ -20,4 +20,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Nio"
-include(":app")
+include(":apps:android")
+include(":apps")
