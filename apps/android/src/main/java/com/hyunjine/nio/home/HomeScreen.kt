@@ -32,17 +32,15 @@ fun HomeComponent(name: String, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         Text(
             text = name,
-            fontSize = 20.sp,
+            fontSize = 24.sp,
             fontWeight = FontWeight.Bold
         )
         Spacer(modifier = Modifier.height(8.dp))
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
                 .data("https://picsum.photos/400/200")
-                .crossfade(true)
                 .build(),
-//            placeholder = painterResource(R.drawable.placeholder),
-            contentDescription = "하하",
+            contentDescription = "옷",
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
