@@ -3,12 +3,16 @@ package com.hyunjine.nio.clothes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hyunjine.nio.clothes.model.ClothesItemModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 
 class ClothesViewModel: ViewModel() {
+    val city: StateFlow<String>
+        field: MutableStateFlow<String> = MutableStateFlow("")
+
     val clothes: StateFlow<List<ClothesItemModel>> = flow {
         emit(
             List(
