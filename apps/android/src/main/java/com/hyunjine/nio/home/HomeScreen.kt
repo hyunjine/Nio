@@ -1,5 +1,6 @@
 package com.hyunjine.nio.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,17 +20,25 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
+) {
     Column(
         modifier = modifier
     ) {
-        HomeComponent("옷")
+        HomeComponent(name = "옷", onClick = onClick)
     }
 }
 
 @Composable
-fun HomeComponent(name: String, modifier: Modifier = Modifier) {
-    Column(modifier = modifier) {
+fun HomeComponent(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
+    name: String
+) {
+    Column(modifier = modifier
+        .clickable { onClick() }) {
         Text(
             text = name,
             fontSize = 24.sp,
@@ -53,5 +62,5 @@ fun HomeComponent(name: String, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    HomeComponent("옷")
+    HomeComponent(name = "옷")
 }

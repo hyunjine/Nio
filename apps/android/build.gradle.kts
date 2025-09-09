@@ -60,6 +60,8 @@ dependencies {
     implementation(libs.lifecycle.viewmodel)
     implementation(libs.lifecycle.viewmodel.compose)
 
+    implementation(libs.navigation)
+
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 }
