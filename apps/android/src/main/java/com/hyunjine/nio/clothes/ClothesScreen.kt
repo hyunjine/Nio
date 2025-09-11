@@ -13,6 +13,8 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -41,6 +43,7 @@ import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -49,6 +52,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.hyunjine.nio.clothes.model.ClothesItemModel
+import com.hyunjine.nio.util.common_android.wlog
 import kotlinx.coroutines.delay
 
 @Composable
@@ -165,7 +169,7 @@ fun AddClothes(onDismissRequest: () -> Unit) {
                 modifier = Modifier.fillMaxWidth(),
                 value = link,
                 onValueChange = { newText -> link = newText }, // 값 변경 처리
-                maxLines = 1,
+                singleLine = true,
                 label = { Text("링크") } // 라벨 (선택)
             )
             Spacer(modifier = Modifier.height(12.dp))
@@ -174,9 +178,19 @@ fun AddClothes(onDismissRequest: () -> Unit) {
                     .fillMaxWidth()
                     .focusRequester(focusRequester),
                 value = description,
-                maxLines = 3,
+                singleLine = true,
                 onValueChange = { newText -> description = newText }, // 값 변경 처리
-                label = { Text("설명") } // 라벨 (선택)
+                label = { Text("설명") },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Done // Done, Go, Search, Next 등 선택 가능
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        // 키보드 Done 버튼 눌렀을 때 동작
+                        wlog("Done 눌림!")
+                        // 포커스 내리기 등 처리 가능
+                    }
+                )
             )
         }
     }
