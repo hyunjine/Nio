@@ -4,37 +4,41 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalClipboard
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,6 +49,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.hyunjine.nio.clothes.model.ClothesItemModel
+import kotlinx.coroutines.delay
 
 @Composable
 fun ClothesScreen(
@@ -71,6 +76,7 @@ fun ClothesGrid(
     modifier: Modifier = Modifier,
     clothes: List<ClothesItemModel>
 ) {
+    var showBottomSheet by remember { mutableStateOf(false) }
     Box {
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
@@ -88,11 +94,13 @@ fun ClothesGrid(
                 .align(Alignment.BottomEnd)
                 .padding(bottom = 8.dp)
             ,
-            onClick = {  }
+            onClick = { showBottomSheet = true }
         ) {
             Icon(Icons.Default.Add, contentDescription = null)
         }
-        MyBottomSheetSample()
+        if (showBottomSheet) {
+            AddClothes { showBottomSheet = false }
+        }
     }
 }
 
@@ -123,39 +131,53 @@ fun ClothesItem(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyBottomSheetSample() {
-    var openBottomSheet by remember { mutableStateOf(true) }
-
+fun AddClothes(onDismissRequest: () -> Unit) {
     val sheetState = rememberModalBottomSheetState()
 
-//    Scaffold(
-//        floatingActionButton = {
-//            FloatingActionButton(onClick = { openBottomSheet = true }) {
-//                Icon(Icons.Default.Add, contentDescription = "Open Sheet")
-//            }
-//        }
-//    ) { padding ->
-//        Box(Modifier.wrapContentSize().padding(padding)) {
-//            Text("메인 화면 컨텐츠")
-//        }
-//    }
+    ModalBottomSheet(
+        onDismissRequest = onDismissRequest,
+        sheetState = sheetState
+    ) {
+        val clipboardManager = LocalClipboard.current
+        val focusRequester = remember { FocusRequester() }
+        var link by remember {
+            mutableStateOf(
+                clipboardManager.nativeClipboard.primaryClip?.getItemAt(0)?.text.toString()
+            )
+        }
+        var description by remember { mutableStateOf("") }
 
-    if (openBottomSheet) {
-        ModalBottomSheet(
-            onDismissRequest = { openBottomSheet = false },
-            sheetState = sheetState
+        val scrollState = rememberScrollState()
+
+        LaunchedEffect(Unit) {
+            delay(300)
+            focusRequester.requestFocus()
+        }
+
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(scrollState) // 스크롤 가능하도록
+                .padding(16.dp)
         ) {
-            Column(
+            TextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = link,
+                onValueChange = { newText -> link = newText }, // 값 변경 처리
+                maxLines = 1,
+                label = { Text("링크") } // 라벨 (선택)
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            TextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
-            ) {
-                Text("바텀시트 내용", style = MaterialTheme.typography.titleMedium)
-                Spacer(Modifier.height(8.dp))
-                Button(onClick = { openBottomSheet = false }) {
-                    Text("닫기")
-                }
-            }
+                    .focusRequester(focusRequester),
+                value = description,
+                maxLines = 3,
+                onValueChange = { newText -> description = newText }, // 값 변경 처리
+                label = { Text("설명") } // 라벨 (선택)
+            )
         }
     }
 }
