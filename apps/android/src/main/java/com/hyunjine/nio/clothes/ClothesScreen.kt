@@ -47,6 +47,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
@@ -65,7 +66,7 @@ fun ClothesScreen(
 @Composable
 fun ClothesGrid(
     modifier: Modifier = Modifier,
-    viewModel: ClothesViewModel = viewModel()
+    viewModel: ClothesViewModel = hiltViewModel()
 ) {
 
     val items by viewModel.clothes.collectAsStateWithLifecycle()
