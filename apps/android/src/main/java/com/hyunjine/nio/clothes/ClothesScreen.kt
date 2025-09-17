@@ -54,7 +54,9 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.hyunjine.nio.clothes.model.ClothesItemModel
 import com.hyunjine.nio.util.common_android.wlog
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun ClothesScreen(
@@ -136,21 +138,28 @@ fun ClothesItem(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddClothes(onDismissRequest: () -> Unit) {
+fun AddClothes(
+    viewModel: ClothesViewModel = hiltViewModel(),
+    onDismissRequest: () -> Unit
+) {
     val sheetState = rememberModalBottomSheetState()
-
+    val scope = rememberCoroutineScope()
     ModalBottomSheet(
         onDismissRequest = onDismissRequest,
         sheetState = sheetState
     ) {
         val clipboardManager = LocalClipboard.current
-        val focusRequester = remember { FocusRequester() }
-        var link by remember {
+        val link by remember {
             mutableStateOf(
                 clipboardManager.nativeClipboard.primaryClip?.getItemAt(0)?.text.toString()
             )
         }
-        var description by remember { mutableStateOf("") }
+        LaunchedEffect(link) {
+            viewModel.updateLink(link)
+        }
+        val focusRequester = remember { FocusRequester() }
+
+        val description by viewModel.description.collectAsStateWithLifecycle()
 
         val scrollState = rememberScrollState()
 
@@ -159,17 +168,16 @@ fun AddClothes(onDismissRequest: () -> Unit) {
             focusRequester.requestFocus()
         }
 
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .verticalScroll(scrollState) // 스크롤 가능하도록
+                .verticalScroll(scrollState)
                 .padding(16.dp)
         ) {
             TextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = link,
-                onValueChange = { newText -> link = newText }, // 값 변경 처리
+                onValueChange = { new -> viewModel.updateLink(new) }, // 값 변경 처리
                 singleLine = true,
                 label = { Text("링크") } // 라벨 (선택)
             )
@@ -180,16 +188,18 @@ fun AddClothes(onDismissRequest: () -> Unit) {
                     .focusRequester(focusRequester),
                 value = description,
                 singleLine = true,
-                onValueChange = { newText -> description = newText }, // 값 변경 처리
+                onValueChange = { new -> viewModel.updateDescription(new) }, // 값 변경 처리
                 label = { Text("설명") },
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Done // Done, Go, Search, Next 등 선택 가능
                 ),
                 keyboardActions = KeyboardActions(
                     onDone = {
-                        // 키보드 Done 버튼 눌렀을 때 동작
-                        wlog("Done 눌림!")
-                        // 포커스 내리기 등 처리 가능
+                        scope.launch {
+                            viewModel.addClothes()
+                            sheetState.hide()
+                            onDismissRequest()
+                        }
                     }
                 )
             )

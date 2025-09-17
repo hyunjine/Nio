@@ -3,14 +3,18 @@ package com.hyunjine.nio.data.clothes
 import com.hyunjine.nio.clothes.ClothesRepository
 import com.hyunjine.nio.clothes.model.ClothesItemModel
 import com.hyunjine.nio.data.clothes.entity.ClothesItemEntity
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class ClothesRepositoryImpl @Inject constructor(
     private val clothesLocalDataSource: ClothesLocalDataSource
 ): ClothesRepository {
-    override suspend fun getClothes(): List<ClothesItemModel> {
-        return clothesLocalDataSource.getClothes().map { entity ->
-            ClothesItemModel(link = entity.link, thumbnail = entity.thumbnail, description = entity.description)
+    override fun getClothes(): Flow<List<ClothesItemModel>> {
+        return clothesLocalDataSource.getClothes().map { entities ->
+            entities.map { entity ->
+                ClothesItemModel(link = entity.link, thumbnail = entity.thumbnail, description = entity.description)
+            }
         }
     }
 

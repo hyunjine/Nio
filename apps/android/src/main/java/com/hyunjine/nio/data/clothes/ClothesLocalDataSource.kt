@@ -4,11 +4,12 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import com.hyunjine.nio.data.clothes.entity.ClothesItemEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ClothesLocalDataSource {
     @Query("SELECT * FROM clothes")
-    suspend fun getClothes(): List<ClothesItemEntity>
+    fun getClothes(): Flow<List<ClothesItemEntity>>
 
 //    @Query("SELECT * FROM clothes WHERE id IN (:userIds)")
 //    suspend fun loadAllByIds(userIds: IntArray): List<User>
@@ -18,7 +19,7 @@ interface ClothesLocalDataSource {
 //    fun findByName(first: String, last: String): User
 //
     @Insert
-    fun addClothes(vararg users: ClothesItemEntity)
+    suspend fun addClothes(vararg users: ClothesItemEntity)
 //
 //    @Delete
 //    fun delete(user: User)
