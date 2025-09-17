@@ -1,5 +1,6 @@
 package com.hyunjine.nio.clothes
 
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,11 +19,13 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -74,14 +77,18 @@ fun ClothesGrid(
     val items by viewModel.clothes.collectAsStateWithLifecycle()
     ClothesGrid(
         modifier = modifier,
-        clothes = items
+        clothes = items,
+        onClickRemoveClothes = { id ->
+            viewModel.removeClothes(id)
+        }
     )
 }
 
 @Composable
 fun ClothesGrid(
     modifier: Modifier = Modifier,
-    clothes: List<ClothesItemModel>
+    clothes: List<ClothesItemModel>,
+    onClickRemoveClothes: (Long) -> Unit,
 ) {
     var showBottomSheet by remember { mutableStateOf(false) }
     Box {
@@ -92,7 +99,7 @@ fun ClothesGrid(
             modifier = modifier
         ) {
             items(clothes) { model ->
-                ClothesItem(model)
+                ClothesItem(model = model, onClickRemoveClothes = onClickRemoveClothes)
             }
         }
         FloatingActionButton(
@@ -113,9 +120,17 @@ fun ClothesGrid(
 
 @Composable
 fun ClothesItem(
-    model: ClothesItemModel
+    model: ClothesItemModel,
+    onClickRemoveClothes: (Long) -> Unit,
 ) {
-    Column {
+    var showDialog by remember { mutableStateOf(false) }
+
+    Column(
+        modifier = Modifier.combinedClickable(
+            onClick = {},
+            onLongClick = { showDialog = true }
+        )
+    ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(model.link)
@@ -132,6 +147,25 @@ fun ClothesItem(
             fontWeight = FontWeight.Bold,
             fontSize = 12.sp,
             color = Color.Black
+        )
+    }
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            confirmButton = {
+                TextButton(onClick = {
+                    onClickRemoveClothes(model.id)
+                    showDialog = false
+                }) {
+                    Text("삭제")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDialog = false }) {
+                    Text("취소")
+                }
+            },
+            title = { Text("삭제할까요?") }
         )
     }
 }
@@ -217,6 +251,7 @@ fun ClothesPreview() {
         ClothesItemModel(link = link, thumbnail = link, description = "테스트입니다.")
     }
     ClothesGrid(
-        clothes = dummy
+        clothes = dummy,
+        onClickRemoveClothes = {}
     )
 }

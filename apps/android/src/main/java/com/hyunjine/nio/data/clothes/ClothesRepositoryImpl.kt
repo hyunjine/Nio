@@ -13,7 +13,12 @@ class ClothesRepositoryImpl @Inject constructor(
     override fun getClothes(): Flow<List<ClothesItemModel>> {
         return clothesLocalDataSource.getClothes().map { entities ->
             entities.map { entity ->
-                ClothesItemModel(link = entity.link, thumbnail = entity.thumbnail, description = entity.description)
+                ClothesItemModel(
+                    id = entity.id,
+                    link = entity.link,
+                    thumbnail = entity.thumbnail,
+                    description = entity.description
+                )
             }
         }
     }
@@ -23,5 +28,9 @@ class ClothesRepositoryImpl @Inject constructor(
             ClothesItemEntity(link = model.link, thumbnail = model.thumbnail, description = model.description)
         }
         clothesLocalDataSource.addClothes(*entity.toTypedArray())
+    }
+
+    override suspend fun removeClothes(id: Long) {
+        clothesLocalDataSource.removeClothes(id)
     }
 }

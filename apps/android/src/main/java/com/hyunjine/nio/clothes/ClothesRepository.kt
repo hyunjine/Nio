@@ -7,4 +7,6 @@ interface ClothesRepository {
     fun getClothes(): Flow<List<ClothesItemModel>>
 
     suspend fun addClothes(vararg clothes: ClothesItemModel)
+
+    suspend fun removeClothes(id: Long)
 }

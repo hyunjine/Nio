@@ -20,7 +20,7 @@ interface ClothesLocalDataSource {
 //
     @Insert
     suspend fun addClothes(vararg users: ClothesItemEntity)
-//
-//    @Delete
-//    fun delete(user: User)
+
+    @Query("DELETE FROM clothes WHERE id = :id")
+    suspend fun removeClothes(id: Long)
 }

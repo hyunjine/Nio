@@ -53,4 +53,10 @@ class ClothesViewModel @Inject constructor(
             )
         }
     }
+
+    fun removeClothes(id: Long) {
+        viewModelScope.launch {
+            repository.removeClothes(id)
+        }
+    }
 }
