@@ -16,8 +16,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.hyunjine.nio.clothes.ClothesViewModel
 
 @Composable
 fun HomeScreen(
@@ -35,7 +37,8 @@ fun HomeScreen(
 fun HomeComponent(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
-    name: String
+    name: String,
+    viewModel: ClothesViewModel = hiltViewModel()
 ) {
     Column(modifier = modifier
         .clickable { onClick() }) {

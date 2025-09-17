@@ -8,6 +8,6 @@ import androidx.room.PrimaryKey
 data class ClothesItemEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     @ColumnInfo(name = "link") val link: String,
-    @ColumnInfo(name = "thumbnail") val thumbnail: String,
+    @ColumnInfo(name = "thumbnail") val thumbnail: String?,
     @ColumnInfo(name = "description") val description: String
 )

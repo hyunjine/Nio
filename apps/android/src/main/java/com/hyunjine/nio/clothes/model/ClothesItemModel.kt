@@ -6,6 +6,6 @@ package com.hyunjine.nio.clothes.model
 data class ClothesItemModel(
     val id: Long = 0,
     val link: String,
-    val thumbnail: String,
+    val thumbnail: String?,
     val description: String
 )
