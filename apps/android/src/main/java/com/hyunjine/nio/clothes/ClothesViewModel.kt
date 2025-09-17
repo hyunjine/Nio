@@ -16,13 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ClothesViewModel @Inject constructor(
-    private val clothesLocalDataSource: ClothesLocalDataSource
+    private val repository: ClothesRepository
 ): ViewModel() {
-    init {
-        viewModelScope.launch {
-            wlog(clothesLocalDataSource.getClothes())
-        }
-    }
     val city: StateFlow<String>
         field: MutableStateFlow<String> = MutableStateFlow("")
 
