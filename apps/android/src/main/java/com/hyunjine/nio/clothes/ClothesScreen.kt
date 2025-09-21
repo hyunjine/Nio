@@ -1,7 +1,9 @@
 package com.hyunjine.nio.clothes
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.webkit.WebSettings
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.combinedClickable
@@ -66,6 +68,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.net.HttpURLConnection
 import java.net.URL
+import androidx.core.net.toUri
 
 @Composable
 fun ClothesScreen(
@@ -130,14 +133,16 @@ fun ClothesItem(
     onClickRemoveClothes: (Long) -> Unit,
 ) {
     var showDialog by remember { mutableStateOf(false) }
-
+    val context = LocalContext.current
     Column(
         modifier = Modifier.combinedClickable(
-            onClick = {},
+            onClick = {
+                val intent = Intent(Intent.ACTION_VIEW, model.link.toUri())
+                context.startActivity(intent)
+            },
             onLongClick = { showDialog = true }
         )
     ) {
-        val userAgent = WebSettings.getDefaultUserAgent(LocalContext.current)
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(model.thumbnail)
