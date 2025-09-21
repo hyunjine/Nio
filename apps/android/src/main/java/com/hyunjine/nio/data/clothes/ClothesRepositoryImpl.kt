@@ -2,35 +2,32 @@ package com.hyunjine.nio.data.clothes
 
 import com.hyunjine.nio.clothes.ClothesRepository
 import com.hyunjine.nio.clothes.model.ClothesItemModel
-import com.hyunjine.nio.data.clothes.entity.ClothesItemEntity
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import com.hyunjine.nio.util.common_android.wlog
 import javax.inject.Inject
 
 class ClothesRepositoryImpl @Inject constructor(
-    private val clothesLocalDataSource: ClothesLocalDataSource
+    private val clothesRemoteDataSource: ClothesRemoteDataSource
 ): ClothesRepository {
-    override fun getClothes(): Flow<List<ClothesItemModel>> {
-        return clothesLocalDataSource.getClothes().map { entities ->
-            entities.map { entity ->
-                ClothesItemModel(
-                    id = entity.id,
-                    link = entity.link,
-                    thumbnail = entity.thumbnail,
-                    description = entity.description
-                )
-            }
+    override suspend fun getClothes(): List<ClothesItemModel> {
+        return clothesRemoteDataSource.getClothes().map { entity ->
+            ClothesItemModel(
+                id = entity.id,
+                link = entity.link,
+                thumbnail = entity.thumbnail,
+                description = entity.description
+            )
         }
     }
 
-    override suspend fun addClothes(vararg clothes: ClothesItemModel) {
-        val entity = clothes.map { model ->
-            ClothesItemEntity(link = model.link, thumbnail = model.thumbnail, description = model.description)
-        }
-        clothesLocalDataSource.addClothes(*entity.toTypedArray())
+    override suspend fun addClothes(
+        link: String,
+        thumbnail: String?,
+        description: String
+    ) {
+        clothesRemoteDataSource.addClothes(link = link, thumbnail = thumbnail, description = description)
     }
 
     override suspend fun removeClothes(id: Long) {
-        clothesLocalDataSource.removeClothes(id)
+        clothesRemoteDataSource.removeClothes(id)
     }
 }

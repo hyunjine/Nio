@@ -69,6 +69,9 @@ import kotlinx.coroutines.withContext
 import java.net.HttpURLConnection
 import java.net.URL
 import androidx.core.net.toUri
+import io.github.jan.supabase.createSupabaseClient
+import io.github.jan.supabase.postgrest.Postgrest
+import io.github.jan.supabase.postgrest.from
 
 @Composable
 fun ClothesScreen(
@@ -260,7 +263,7 @@ fun ClothesPreview() {
         10
     ) {
         val link = "https://picsum.photos/400/200"
-        ClothesItemModel(link = link, thumbnail = link, description = "테스트입니다.")
+        ClothesItemModel(id = 0, link = link, thumbnail = link, description = "테스트입니다.")
     }
     ClothesGrid(
         clothes = dummy,

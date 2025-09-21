@@ -17,6 +17,7 @@ import io.ktor.http.HttpHeaders
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -35,8 +36,9 @@ class ClothesViewModel @Inject constructor(
     val description: StateFlow<String>
         field: MutableStateFlow<String> = MutableStateFlow("")
 
-    val clothes: StateFlow<List<ClothesItemModel>> = repository.getClothes()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+    val clothes: StateFlow<List<ClothesItemModel>> = flow {
+        emit(repository.getClothes())
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
     fun updateLink(value: String) {
         link.update { value }
@@ -50,11 +52,9 @@ class ClothesViewModel @Inject constructor(
         viewModelScope.launch {
             val thumbnail = fetchThumbnail(link.value)
             repository.addClothes(
-                ClothesItemModel(
-                    link = link.value,
-                    thumbnail = thumbnail,
-                    description = description.value
-                )
+                link = link.value,
+                thumbnail = thumbnail,
+                description = description.value
             )
         }
     }

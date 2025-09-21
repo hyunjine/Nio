@@ -1,10 +1,10 @@
-package com.hyunjine.nio.clothes
+package com.hyunjine.nio.data.clothes
 
 import com.hyunjine.nio.clothes.model.ClothesItemModel
-import kotlinx.coroutines.flow.Flow
+import com.hyunjine.nio.data.clothes.entity.ClothesItemEntity
 
-interface ClothesRepository {
-    suspend fun getClothes(): List<ClothesItemModel>
+interface ClothesRemoteDataSource {
+    suspend fun getClothes(): List<ClothesItemEntity>
 
     suspend fun addClothes(
         link: String,

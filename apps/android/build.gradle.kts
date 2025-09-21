@@ -86,4 +86,7 @@ dependencies {
 
     implementation(libs.jsoup)
 
+    implementation(platform(libs.superbase.bom))
+    implementation(libs.superbase.postgrest)
+
 }
