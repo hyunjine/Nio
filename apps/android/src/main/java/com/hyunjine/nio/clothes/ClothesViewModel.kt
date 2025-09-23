@@ -5,7 +5,6 @@ import android.webkit.WebSettings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hyunjine.nio.clothes.model.ClothesItemModel
-import com.hyunjine.nio.util.common_android.wlog
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.ktor.client.HttpClient

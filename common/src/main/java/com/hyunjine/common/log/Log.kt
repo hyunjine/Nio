@@ -1,11 +1,10 @@
-package com.hyunjine.nio.util.common_android
+package com.hyunjine.common.log
 
-import android.util.Log
-import kotlin.collections.joinToString
+import io.github.aakira.napier.Napier
 
 fun wlog(vararg msg: Any?) {
     val stackTrace = Thread.currentThread().stackTrace
-    val currentMethodIndex = stackTrace.indexOfFirst { it.methodName == "log" }
+    val currentMethodIndex = stackTrace.indexOfFirst { println(it);it.methodName == "wlog" }
     if (currentMethodIndex != -1 && currentMethodIndex + 1 < stackTrace.size) {
         val caller = stackTrace[currentMethodIndex + 1]
         val path = caller.toString()
@@ -22,12 +21,12 @@ private fun i(
     tag: String,
     msg: Any?,
 ) {
-    Log.i(tag, msg.toString())
+    Napier.i(tag = tag, message = msg.toString())
 }
 
 private fun d(
     tag: String,
     msg: Any?
 ) {
-    Log.d(tag, msg.toString())
+    Napier.d(tag = tag, message = msg.toString())
 }
