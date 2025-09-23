@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.hyunjine.common.log.wlog
 import com.hyunjine.nio.clothes.ClothesViewModel
 
 @Composable
@@ -40,6 +41,7 @@ fun HomeComponent(
     name: String,
     viewModel: ClothesViewModel = hiltViewModel()
 ) {
+    wlog("하이")
     Column(modifier = modifier
         .clickable { onClick() }) {
         Text(

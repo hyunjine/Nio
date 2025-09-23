@@ -2,7 +2,6 @@ package com.hyunjine.nio.data.clothes
 
 import com.hyunjine.nio.clothes.ClothesRepository
 import com.hyunjine.nio.clothes.model.ClothesItemModel
-import com.hyunjine.nio.util.common_android.wlog
 import javax.inject.Inject
 
 class ClothesRepositoryImpl @Inject constructor(
