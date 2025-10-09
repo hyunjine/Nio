@@ -15,7 +15,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.hyunjine.nio.clothes.ClothesScreen
+import com.hyunjine.clothes.ClothesScreen
 import com.hyunjine.nio.home.HomeScreen
 import com.hyunjine.nio.ui.theme.NioTheme
 import dagger.hilt.android.AndroidEntryPoint

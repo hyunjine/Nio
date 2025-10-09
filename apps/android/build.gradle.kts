@@ -72,20 +72,13 @@ dependencies {
     ksp(libs.hilt.compiler)
     implementation(libs.hilt.navigation)
 
-    implementation(libs.androidx.room.runtime)
-    ksp(libs.androidx.room.compiler)
-    implementation(libs.androidx.room.ktx)
-
     implementation(libs.kotlin.serialization)
+
+    implementation(platform(libs.superbase.bom))
+    implementation(libs.superbase.postgrest)
 
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.cio)
     implementation(libs.ktor.client.content.negotiation)
     implementation(libs.ktor.client.logging)
-
-    implementation(libs.jsoup)
-
-    implementation(platform(libs.superbase.bom))
-    implementation(libs.superbase.postgrest)
-
 }

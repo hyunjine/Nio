@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.hyunjine.clothes.ClothesViewModel
 import com.hyunjine.common.log.wlog
-import com.hyunjine.nio.clothes.ClothesViewModel
 
 @Composable
 fun HomeScreen(

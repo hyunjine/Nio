@@ -12,4 +12,6 @@ interface ClothesRepository {
     )
 
     suspend fun removeClothes(id: Long)
+
+    suspend fun fetchThumbnail(url: String): String?
 }
