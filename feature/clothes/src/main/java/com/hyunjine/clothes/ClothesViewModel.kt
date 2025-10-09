@@ -1,15 +1,14 @@
-package com.hyunjine.nio.clothes
+package com.hyunjine.clothes
 
 import android.content.Context
 import android.webkit.WebSettings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hyunjine.nio.clothes.model.ClothesItemModel
+import com.hyunjine.clothes.model.ClothesItemModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
-import io.ktor.client.request.get
 import io.ktor.client.request.headers
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.HttpHeaders

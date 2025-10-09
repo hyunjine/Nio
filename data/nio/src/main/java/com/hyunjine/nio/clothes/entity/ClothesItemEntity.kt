@@ -1,4 +1,4 @@
-package com.hyunjine.nio.data.clothes.entity
+package com.hyunjine.nio.clothes.entity
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

@@ -23,3 +23,7 @@ rootProject.name = "Nio"
 include(":apps:android")
 include(":apps")
 include(":common")
+include(":data")
+include(":data:nio")
+include(":feature")
+include(":feature:clothes")

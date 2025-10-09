@@ -1,15 +1,10 @@
-package com.hyunjine.nio.data.clothes
+package com.hyunjine.nio.clothes
 
-import com.hyunjine.nio.data.clothes.entity.ClothesItemEntity
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import com.hyunjine.nio.clothes.entity.ClothesItemEntity
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.from
 import javax.inject.Inject
 
-@Module
-@InstallIn(SingletonComponent::class)
 class ClothesRemoteDataSourceImpl @Inject constructor(
     private val supabaseClient: SupabaseClient
 ): ClothesRemoteDataSource {

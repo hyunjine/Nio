@@ -1,7 +1,6 @@
-package com.hyunjine.nio.data.clothes
+package com.hyunjine.nio.clothes
 
-import com.hyunjine.nio.clothes.model.ClothesItemModel
-import com.hyunjine.nio.data.clothes.entity.ClothesItemEntity
+import com.hyunjine.nio.clothes.entity.ClothesItemEntity
 
 interface ClothesRemoteDataSource {
     suspend fun getClothes(): List<ClothesItemEntity>

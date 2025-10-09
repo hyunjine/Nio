@@ -1,4 +1,4 @@
-package com.hyunjine.nio.clothes
+package com.hyunjine.clothes
 
 import android.content.Intent
 import androidx.compose.foundation.combinedClickable
@@ -55,7 +55,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.hyunjine.nio.clothes.model.ClothesItemModel
+import com.hyunjine.clothes.model.ClothesItemModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

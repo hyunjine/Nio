@@ -1,4 +1,4 @@
-package com.hyunjine.nio.clothes.model
+package com.hyunjine.clothes.model
 
 import kotlinx.serialization.Serializable
 

@@ -1,7 +1,7 @@
-package com.hyunjine.nio.data.clothes
+package com.hyunjine.nio.clothes
 
-import com.hyunjine.nio.clothes.ClothesRepository
-import com.hyunjine.nio.clothes.model.ClothesItemModel
+import com.hyunjine.clothes.ClothesRepository
+import com.hyunjine.clothes.model.ClothesItemModel
 import javax.inject.Inject
 
 class ClothesRepositoryImpl @Inject constructor(

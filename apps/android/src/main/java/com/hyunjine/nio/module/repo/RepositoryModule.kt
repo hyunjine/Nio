@@ -1,7 +1,7 @@
 package com.hyunjine.nio.module.repo
 
-import com.hyunjine.nio.clothes.ClothesRepository
-import com.hyunjine.nio.data.clothes.ClothesRepositoryImpl
+import com.hyunjine.clothes.ClothesRepository
+import com.hyunjine.nio.clothes.ClothesRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

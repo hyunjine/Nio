@@ -1,7 +1,6 @@
-package com.hyunjine.nio.clothes
+package com.hyunjine.clothes
 
-import com.hyunjine.nio.clothes.model.ClothesItemModel
-import kotlinx.coroutines.flow.Flow
+import com.hyunjine.clothes.model.ClothesItemModel
 
 interface ClothesRepository {
     suspend fun getClothes(): List<ClothesItemModel>

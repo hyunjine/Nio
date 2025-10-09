@@ -17,10 +17,21 @@ class ExampleUnitTest {
     }
 }
 
-class A: Flow<Int> {
-    override suspend fun collect(collector: FlowCollector<Int>) {
-
-        TODO("Not yet implemented")
+fun main() {
+    val n = readln().toInt()
+    val arr = IntArray(n+1) { 0 }
+    arr[2] = 3
+    for (i in 3 .. n) {
+        var result = 0
+        var left = 1
+        while (left <= i / 2) {
+            val right = i - left
+            if (arr[left] != 0 && arr[right] != 0) {
+                result += arr[left] + arr[right]
+            }
+            left++
+        }
+        arr[i] = result
     }
-
+    print(arr[n])
 }

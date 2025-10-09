@@ -1,10 +1,4 @@
-package com.hyunjine.nio.data.clothes
-
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import com.hyunjine.nio.data.clothes.entity.ClothesItemEntity
-import kotlinx.coroutines.flow.Flow
+package com.hyunjine.nio.clothes
 
 interface ClothesLocalDataSource {
 //    @Query("SELECT * FROM clothes")
