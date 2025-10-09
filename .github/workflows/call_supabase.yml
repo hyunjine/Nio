@@ -1,0 +1,19 @@
+name: Call Supabase Function Daily
+
+on:
+  schedule:
+    - cron: "20 12 * * *" # 매일 한국 시간 기준 오후 9시 20분 실행
+  workflow_dispatch: # 수동 실행도 가능
+
+jobs:
+  call-function:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Call Supabase Edge Function
+        run: |
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_JWT }}" \
+            -H "Content-Type: application/json" \
+            -d '{"name":"Functions"}' \
+            https://ctkpujorpenkjailzvzy.supabase.co/functions/v1/database-access
