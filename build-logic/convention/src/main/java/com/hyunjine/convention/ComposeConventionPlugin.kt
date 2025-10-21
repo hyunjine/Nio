@@ -30,26 +30,15 @@ internal class ComposeConventionPlugin : Plugin<Project> {
         with(target) {
             with(pluginManager) {
                 apply("org.jetbrains.kotlin.plugin.compose")
+                androidModule {
+                    buildFeatures {
+                        compose = true
+                    }
 
-                withPlugin("com.android.application") {
-                    configureCompose<ApplicationExtension>()
+                    dependencies {
+                        implementation(libs.findBundle("compose"))
+                    }
                 }
-
-                withPlugin("com.android.library") {
-                    configureCompose<LibraryExtension>()
-                }
-            }
-        }
-    }
-
-    private inline fun<reified T: CommonExtension<*, *, *, *, *, *>> Project.configureCompose() {
-        extensions.configure<T> {
-            buildFeatures {
-                compose = true
-            }
-
-            dependencies {
-                implementation(libs.findBundle("compose"))
             }
         }
     }

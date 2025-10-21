@@ -26,5 +26,9 @@ gradlePlugin {
             id = "compose.plugin"
             implementationClass = "com.hyunjine.convention.ComposeConventionPlugin"
         }
+        register("HiltConventionPlugin") {
+            id = "hilt.plugin"
+            implementationClass = "com.hyunjine.convention.HiltConventionPlugin"
+        }
     }
 }
