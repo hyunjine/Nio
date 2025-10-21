@@ -1,6 +1,11 @@
 package com.hyunjine.common.log
 
+import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
+
+fun startLog() {
+    Napier.base(DebugAntilog())
+}
 
 fun wlog(vararg msg: Any?) {
     val stackTrace = Thread.currentThread().stackTrace

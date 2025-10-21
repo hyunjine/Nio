@@ -1,4 +1,4 @@
-package com.hyunjine.nio.ui.theme
+package com.hyunjine.common.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
