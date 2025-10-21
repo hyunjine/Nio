@@ -1,3 +1,5 @@
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 pluginManagement {
     repositories {
         google {
@@ -22,8 +24,9 @@ dependencyResolutionManagement {
 rootProject.name = "Nio"
 include(":apps:android")
 include(":apps")
-include(":common")
+//include(":common2")
 include(":data")
 include(":data:nio")
 include(":feature")
 include(":feature:clothes")
+include(":common")
