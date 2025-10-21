@@ -30,5 +30,9 @@ gradlePlugin {
             id = "hilt.plugin"
             implementationClass = "com.hyunjine.convention.HiltConventionPlugin"
         }
+        register("SerializationConventionPlugin") {
+            id = "serialization.plugin"
+            implementationClass = "com.hyunjine.convention.SerializationConventionPlugin"
+        }
     }
 }

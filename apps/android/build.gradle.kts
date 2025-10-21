@@ -3,11 +3,12 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.google.gms.google.services)
     alias(libs.plugins.google.firebase.crashlytics)
+
     alias(libs.plugins.bundle.compose)
     alias(libs.plugins.bundle.hilt)
+    alias(libs.plugins.bundle.serialization)
 }
 
 android {
@@ -58,12 +59,8 @@ dependencies {
 
     implementation(libs.lifecycle.viewmodel)
     implementation(libs.lifecycle.viewmodel.compose)
-
     implementation(libs.navigation)
-
     implementation(libs.hilt.navigation)
-
-    implementation(libs.kotlin.serialization)
 
     implementation(platform(libs.superbase.bom))
     implementation(libs.superbase.postgrest)
