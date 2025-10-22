@@ -23,7 +23,7 @@ android {
         val major = 1 ; val minor = 2 ; val patch = 0
 
         versionName = "${major}.${minor}.${patch}"
-        versionCode = 2
+        versionCode = 3
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
