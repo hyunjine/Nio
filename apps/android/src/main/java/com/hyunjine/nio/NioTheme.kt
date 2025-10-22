@@ -1,4 +1,4 @@
-package com.hyunjine.nio.ui.theme
+package com.hyunjine.nio
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -14,7 +14,6 @@ import com.hyunjine.common.ui.theme.Typography
 @Composable
 fun NioTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {

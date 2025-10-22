@@ -5,7 +5,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 
 /**
- * android module에서 사용할 api level, java version 플러그인입니다.
+ * hilt 라이브러리를 추가하는 플러그인입니다.
  */
 internal class HiltConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {

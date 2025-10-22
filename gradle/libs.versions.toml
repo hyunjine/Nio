@@ -70,8 +70,6 @@ kotlin-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-j
 
 superbase-bom = { module = "io.github.jan-tennert.supabase:bom", version.ref = "bom" }
 superbase-postgrest = { module = "io.github.jan-tennert.supabase:postgrest-kt" }
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 javax-inject = { module = "javax.inject:javax.inject", version.ref = "javaxInject" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebaseCrashlytics" }
@@ -105,6 +103,7 @@ google-gms-google-services = { id = "com.google.gms.google-services", version.re
 google-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "googleFirebaseCrashlytics" }
 
 # custom plugin
+feature = { id = "feature.plugin" }
 bundle-compose = { id = "compose.plugin" }
 bundle-hilt = { id = "hilt.plugin" }
 bundle-serialization = { id = "serialization.plugin" }

@@ -19,8 +19,11 @@ android {
         applicationId = "com.hyunjine.nio"
         minSdk = 28
         targetSdk = 36
+
+        val major = 1 ; val minor = 2 ; val patch = 0
+
+        versionName = "${major}.${minor}.${patch}"
         versionCode = 2
-        versionName = "1.2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -55,18 +58,5 @@ dependencies {
     implementation(projects.data.nio)
     implementation(projects.feature.clothes)
 
-    implementation(libs.coil)
-
-    implementation(libs.lifecycle.viewmodel)
-    implementation(libs.lifecycle.viewmodel.compose)
     implementation(libs.navigation)
-    implementation(libs.hilt.navigation)
-
-    implementation(platform(libs.superbase.bom))
-    implementation(libs.superbase.postgrest)
-
-    implementation(libs.ktor.client.core)
-    implementation(libs.ktor.client.cio)
-    implementation(libs.ktor.client.content.negotiation)
-    implementation(libs.ktor.client.logging)
 }

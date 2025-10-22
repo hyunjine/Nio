@@ -1,4 +1,4 @@
-package com.hyunjine.clothes
+package com.hyunjine.clothes.list
 
 import android.content.Intent
 import androidx.compose.foundation.combinedClickable

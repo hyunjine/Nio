@@ -1,4 +1,4 @@
-package com.hyunjine.nio.home
+package com.hyunjine.clothes.main
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.hyunjine.clothes.ClothesViewModel
+import com.hyunjine.clothes.list.ClothesViewModel
 
 @Composable
 fun HomeScreen(

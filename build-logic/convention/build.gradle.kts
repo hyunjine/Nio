@@ -22,6 +22,10 @@ kotlin {
 
 gradlePlugin {
     plugins {
+        register("FeatureConventionPlugin") {
+            id = "feature.plugin"
+            implementationClass = "com.hyunjine.convention.FeatureConventionPlugin"
+        }
         register("ComposeConventionPlugin") {
             id = "compose.plugin"
             implementationClass = "com.hyunjine.convention.ComposeConventionPlugin"

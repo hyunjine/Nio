@@ -3,7 +3,8 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.bundle.hilt)
+    alias(libs.plugins.bundle.serialization)
 }
 
 android {
@@ -35,32 +36,19 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(projects.feature.clothes)
 
     implementation(platform(libs.superbase.bom))
-    implementation(libs.superbase.postgrest)
+    api(libs.superbase.postgrest)
 
-    implementation(libs.kotlin.serialization)
-
-    implementation(libs.javax.inject)
-
-    implementation(libs.ktor.client.core)
-    implementation(libs.ktor.client.cio)
-    implementation(libs.ktor.client.content.negotiation)
-    implementation(libs.ktor.client.logging)
-
-    implementation(libs.hilt.android)
-
-//    implementation(libs.androidx.room.runtime)
-//    ksp(libs.androidx.room.compiler)
-//    implementation(libs.androidx.room.ktx)
+    api(libs.ktor.client.core)
+    api(libs.ktor.client.cio)
+    api(libs.ktor.client.content.negotiation)
+    api(libs.ktor.client.logging)
 
     implementation(libs.jsoup)
 }

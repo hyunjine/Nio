@@ -1,8 +1,9 @@
-package com.hyunjine.clothes
+package com.hyunjine.clothes.list
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hyunjine.clothes.ClothesRepository
 import com.hyunjine.clothes.model.ClothesItemModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext

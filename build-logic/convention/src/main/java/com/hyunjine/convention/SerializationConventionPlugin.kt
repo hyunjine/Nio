@@ -6,7 +6,7 @@ import org.gradle.kotlin.dsl.dependencies
 import kotlin.jvm.kotlin
 
 /**
- * android module에서 사용할 api level, java version 플러그인입니다.
+ * kotlin-serialization 라이브러리를 추가하는 플러그인입니다.
  */
 internal class SerializationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
