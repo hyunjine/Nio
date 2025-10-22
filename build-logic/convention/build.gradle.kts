@@ -1,0 +1,42 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+plugins {
+    `kotlin-dsl`
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+dependencies {
+    compileOnly(libs.android.gradle.plugin)
+    compileOnly(libs.kotlin.gradle.plugin)
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_11)
+    }
+}
+
+gradlePlugin {
+    plugins {
+        register("FeatureConventionPlugin") {
+            id = "feature.plugin"
+            implementationClass = "com.hyunjine.convention.FeatureConventionPlugin"
+        }
+        register("ComposeConventionPlugin") {
+            id = "compose.plugin"
+            implementationClass = "com.hyunjine.convention.ComposeConventionPlugin"
+        }
+        register("HiltConventionPlugin") {
+            id = "hilt.plugin"
+            implementationClass = "com.hyunjine.convention.HiltConventionPlugin"
+        }
+        register("SerializationConventionPlugin") {
+            id = "serialization.plugin"
+            implementationClass = "com.hyunjine.convention.SerializationConventionPlugin"
+        }
+    }
+}

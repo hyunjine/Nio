@@ -1,12 +1,8 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.google.gms.google.services)
-    alias(libs.plugins.google.firebase.crashlytics)
-
-    alias(libs.plugins.bundle.compose)
     alias(libs.plugins.bundle.hilt)
     alias(libs.plugins.bundle.serialization)
 }
@@ -16,16 +12,10 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.hyunjine.nio"
         minSdk = 28
-        targetSdk = 36
-
-        val major = 1 ; val minor = 2 ; val patch = 0
-
-        versionName = "${major}.${minor}.${patch}"
-        versionCode = 3
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -46,17 +36,19 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.firebase.crashlytics)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
-    implementation(projects.common)
-    implementation(projects.data.nio)
     implementation(projects.feature.clothes)
 
-    implementation(libs.navigation)
+    implementation(platform(libs.superbase.bom))
+    api(libs.superbase.postgrest)
+
+    api(libs.ktor.client.core)
+    api(libs.ktor.client.cio)
+    api(libs.ktor.client.content.negotiation)
+    api(libs.ktor.client.logging)
+
+    implementation(libs.jsoup)
 }
