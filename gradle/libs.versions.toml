@@ -2,6 +2,7 @@
 agp = "8.12.2"
 bom = "3.2.3"
 coil = "2.4.0"
+glance = "1.1.1"
 hiltNavigationCompose = "1.3.0"
 jsoup = "1.21.2"
 kotlin = "2.2.10"
@@ -29,9 +30,13 @@ javaxInject = "1"
 firebaseCrashlytics = "20.0.2"
 googleGmsGoogleServices = "4.4.3"
 googleFirebaseCrashlytics = "3.0.6"
+appcompatVersion = "1.7.1"
+materialVersion = "1.13.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-glance-material3 = { module = "androidx.glance:glance-material3", version.ref = "glance" }
+androidx-glance-appwidget = { module = "androidx.glance:glance-appwidget", version.ref = "glance" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
@@ -76,6 +81,8 @@ firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashly
 
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompatVersion" }
+material = { group = "com.google.android.material", name = "material", version.ref = "materialVersion" }
 
 [bundles]
 compose = [

@@ -3,7 +3,7 @@ package com.hyunjine.nio.clothes
 import android.content.Context
 import android.webkit.WebSettings
 import com.hyunjine.clothes.ClothesRepository
-import com.hyunjine.clothes.model.ClothesItemModel
+import com.hyunjine.clothes.list.model.ClothesItemModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO

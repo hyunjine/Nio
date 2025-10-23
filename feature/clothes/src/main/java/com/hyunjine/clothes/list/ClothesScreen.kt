@@ -55,7 +55,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.hyunjine.clothes.model.ClothesItemModel
+import com.hyunjine.clothes.list.model.ClothesItemModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

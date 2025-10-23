@@ -37,8 +37,7 @@ fun HomeScreen(
 fun HomeComponent(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
-    name: String,
-    viewModel: ClothesViewModel = hiltViewModel()
+    name: String
 ) {
     Column(modifier = modifier
         .clickable { onClick() }) {

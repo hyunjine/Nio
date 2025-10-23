@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hyunjine.clothes.ClothesRepository
-import com.hyunjine.clothes.model.ClothesItemModel
+import com.hyunjine.clothes.list.model.ClothesItemModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,8 +19,6 @@ import javax.inject.Inject
 @HiltViewModel
 class ClothesViewModel @Inject constructor(
     private val repository: ClothesRepository,
-    @param:ApplicationContext
-    private val context: Context
 ): ViewModel() {
     val link: StateFlow<String>
         field: MutableStateFlow<String> = MutableStateFlow("")

@@ -57,6 +57,7 @@ dependencies {
     implementation(projects.common)
     implementation(projects.data.nio)
     implementation(projects.feature.clothes)
+    implementation(projects.feature.dDay)
 
     implementation(libs.navigation)
 }

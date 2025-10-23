@@ -1,6 +1,6 @@
 package com.hyunjine.clothes
 
-import com.hyunjine.clothes.model.ClothesItemModel
+import com.hyunjine.clothes.list.model.ClothesItemModel
 
 interface ClothesRepository {
     suspend fun getClothes(): List<ClothesItemModel>
