@@ -2,7 +2,8 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:previewImage="@drawable/m3_split_button_chevron_avd"
     android:description="@string/test"
-    android:minResizeWidth="50dp"
-    android:minResizeHeight="50dp"
+    android:targetCellHeight="2"
+    android:targetCellWidth="2"
+    android:updatePeriodMillis="0"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen" />
