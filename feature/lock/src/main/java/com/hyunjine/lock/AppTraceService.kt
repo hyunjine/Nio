@@ -2,13 +2,24 @@ package com.hyunjine.lock
 
 
 import android.accessibilityservice.AccessibilityService
-import android.content.Intent
-import android.os.Handler
 import android.view.accessibility.AccessibilityEvent
-import android.widget.Toast
 import com.hyunjine.common.log.wlog
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlin.coroutines.CoroutineContext
 
-class AppTraceService : AccessibilityService() {
+class AppTraceService : AccessibilityService(), CoroutineScope {
+    private val deviceShield: DeviceShield by lazy {
+        DeviceShield(this)
+    }
+
+    private val job: Job = SupervisorJob()
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
+
     companion object {
         private val LOCK_APP_PACKAGES: Set<String> = setOf(
             "com.instagram.android", // 인스타
@@ -17,22 +28,27 @@ class AppTraceService : AccessibilityService() {
         )
     }
 
+
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
         if (event == null) return
-        if (event.eventType != AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) return
-        wlog(event.packageName)
-        if (LOCK_APP_PACKAGES.contains(event.packageName)) {
-            Handler(mainLooper).post {
-                wlog("in")
-                Toast.makeText(this, "시발롬아", Toast.LENGTH_SHORT).show()
-            }
+        if (event.eventType != AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) return
 
+        val pkg = event.packageName ?: return
+        wlog(pkg, AccessibilityEvent.eventTypeToString(event.eventType), LOCK_APP_PACKAGES.contains(pkg))
+        if (LOCK_APP_PACKAGES.contains(pkg)) {
+            deviceShield.show()
+        } else {
+            deviceShield.hide()
         }
-
-//        val packageName = event.packageName?.toString()
-
     }
 
-    override fun onInterrupt() {}
+    override fun onDestroy() {
+        job.cancel()
+        super.onDestroy()
+    }
+
+    override fun onInterrupt() {
+
+    }
 
 }

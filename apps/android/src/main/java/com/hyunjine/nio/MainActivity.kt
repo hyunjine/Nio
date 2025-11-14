@@ -1,6 +1,7 @@
 package com.hyunjine.nio
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import androidx.activity.ComponentActivity
@@ -21,6 +22,7 @@ import com.hyunjine.clothes.list.ClothesScreen
 import com.hyunjine.clothes.main.HomeScreen
 import com.hyunjine.lock.AppTraceService
 import dagger.hilt.android.AndroidEntryPoint
+import androidx.core.net.toUri
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -30,7 +32,13 @@ class MainActivity : ComponentActivity() {
         startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         })
-//        startForegroundService(Intent(this, AppTraceService::class.java))
+        if (!Settings.canDrawOverlays(this)) {
+            val intent = Intent(
+                Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                "package:$packageName".toUri()
+            )
+            startActivity(intent)
+        }
         setContent {
             NioTheme {
                 NioApp()
