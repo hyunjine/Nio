@@ -58,6 +58,7 @@ dependencies {
     implementation(projects.data.nio)
     implementation(projects.feature.clothes)
     implementation(projects.feature.dDay)
+    implementation(projects.feature.lock)
 
     implementation(libs.navigation)
 }

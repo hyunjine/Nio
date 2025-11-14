@@ -1,9 +1,8 @@
 package com.hyunjine.nio
 
-import android.app.Service
 import android.content.Intent
 import android.os.Bundle
-import android.os.IBinder
+import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -20,6 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.hyunjine.clothes.list.ClothesScreen
 import com.hyunjine.clothes.main.HomeScreen
+import com.hyunjine.lock.AppTraceService
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,6 +27,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        })
+//        startForegroundService(Intent(this, AppTraceService::class.java))
         setContent {
             NioTheme {
                 NioApp()

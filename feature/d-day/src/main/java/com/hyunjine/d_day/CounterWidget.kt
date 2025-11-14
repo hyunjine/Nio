@@ -28,6 +28,7 @@ import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import com.hyunjine.common.log.wlog
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import java.io.File
 import java.time.LocalDateTime
@@ -99,10 +100,10 @@ class IncrementAction : ActionCallback {
 class TodoDataStore(private val context: Context): DataStore<LocalDateTime> {
     override val data: Flow<LocalDateTime>
         get() {
-            val todoDbHelper = TodoDbHelper(context)
-            val dbHelper = DbHelper(todoDbHelper.readableDatabase)
-            val todoDao = TodoDao(dbHelper)
-            return flow { emit(todoDao.findAll()) }
+//            val todoDbHelper = TodoDbHelper(context)
+//            val dbHelper = DbHelper(todoDbHelper.readableDatabase)
+//            val todoDao = TodoDao(dbHelper)
+            return emptyFlow()
         }
 
     override suspend fun updateData(transform: suspend (t: LocalDateTime) -> LocalDateTime): LocalDateTime {
