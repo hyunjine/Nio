@@ -18,9 +18,7 @@ class TestActivity : ComponentActivity() {
 
         setContent {
             NioTheme {
-                TimerRunningScreen(
-                    TimerState.Running(10.minutes)
-                ).invoke()
+                TimerRunningScreen()
             }
         }
     }

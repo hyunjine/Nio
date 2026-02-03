@@ -22,7 +22,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,7 +37,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavKey
 import com.hyunjine.common.R
 import com.hyunjine.common.extension.minutes
@@ -54,7 +53,10 @@ import com.hyunjine.common.ui.theme.blue900
 import com.hyunjine.common.ui.theme.red600
 import com.hyunjine.common.ui.theme.typography.typography
 import com.hyunjine.common.ui.theme.white
+import com.hyunjine.common.util.BaseViewModel
 import com.hyunjine.timer.main.model.TimerState
+import com.hyunjine.timer.running.service.TimerManager
+import kotlinx.coroutines.delay
 import kotlinx.serialization.Serializable
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -63,12 +65,7 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 
 @Serializable
-data class TimerRunningScreen(
-//    val name: String,
-    val state: TimerState,
-//    val wholeDuration: Duration,
-//    val duration: Duration,
-) {
+data object TimerRunningScreen: NavKey {
     @Composable
     operator fun invoke(
         viewModel: TimerRunningViewModel = hiltViewModel(
@@ -78,6 +75,24 @@ data class TimerRunningScreen(
         ),
         onBack: () -> Unit = {},
     ) {
+        LaunchedEffect(Unit) {
+            TimerManager.runningTimer.collect {
+                wlog(it)
+            }
+        }
+        LaunchedEffect(Unit) {
+            delay(1000L)
+            wlog("start")
+            TimerManager.run(
+                id = 4861, name = "Leslie Alston", wholeDuration = 30.minutes
+            )
+            delay(5000L)
+            TimerManager.pause()
+            wlog("pause")
+            delay(3000L)
+            TimerManager.resume()
+            wlog("resume")
+        }
 //        val mainTimer by viewModel.mainTimer.collectAsStateWithLifecycle()
 //        val controlBox by viewModel.controlBox.collectAsStateWithLifecycle()
 //
@@ -126,178 +141,178 @@ data class TimerRunningScreen(
             Spacer(modifier = Modifier.weight(0.4F))
         }
     }
-}
 
-data class MainTimer(
-    val name: String,
-    @get:FloatRange(from = 0.0, to = 1.0)
-    val progress: Float,
-    val duration: Duration,
-    val finishTime: LocalDateTime,
-    val timerState: TimerState
-) {
-    @Composable
-    operator fun invoke(
-        modifier: Modifier = Modifier
+    data class MainTimer(
+        val name: String,
+        @get:FloatRange(from = 0.0, to = 1.0)
+        val progress: Float,
+        val duration: Duration,
+        val finishTime: LocalDateTime,
+        val timerState: TimerState
     ) {
-        ConstraintLayout(
-            modifier = modifier
-                .fillMaxWidth()
-                .aspectRatio(1F)
+        @Composable
+        operator fun invoke(
+            modifier: Modifier = Modifier
         ) {
-            val (graphId, nameId, durationId, finishTimeId) = createRefs()
-            val strokeWidth = 9.dp
-            Canvas(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .constrainAs(graphId) {
-                        top.linkTo(parent.top)
-                    }
+            ConstraintLayout(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .aspectRatio(1F)
             ) {
-                val strokeWidthPx = strokeWidth.toPx()
-                val inset = strokeWidthPx / 2
-                // 선이 차지하는 공간을 제외한 실제 원의 크기 계산
-                val arcSize = Size(
-                    width = size.width - strokeWidthPx,
-                    height = size.height - strokeWidthPx
-                )
-                // 배경 회색 원
-                drawCircle(
-                    color = black100,
-                    center = center, // 중앙 기준
-                    radius = (size.minDimension - strokeWidthPx) / 2, // 반지름에서 두께 절반 빼기
-                    style = Stroke(width = strokeWidthPx)
-                )
+                val (graphId, nameId, durationId, finishTimeId) = createRefs()
+                val strokeWidth = 9.dp
+                Canvas(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .constrainAs(graphId) {
+                            top.linkTo(parent.top)
+                        }
+                ) {
+                    val strokeWidthPx = strokeWidth.toPx()
+                    val inset = strokeWidthPx / 2
+                    // 선이 차지하는 공간을 제외한 실제 원의 크기 계산
+                    val arcSize = Size(
+                        width = size.width - strokeWidthPx,
+                        height = size.height - strokeWidthPx
+                    )
+                    // 배경 회색 원
+                    drawCircle(
+                        color = black100,
+                        center = center, // 중앙 기준
+                        radius = (size.minDimension - strokeWidthPx) / 2, // 반지름에서 두께 절반 빼기
+                        style = Stroke(width = strokeWidthPx)
+                    )
 
-                // 파란색 진행 선
-                drawArc(
-                    color = blue900,
-                    startAngle = -90F,
-                    sweepAngle = 360F * progress,
-                    useCenter = false,
-                    // 시작점을 (inset, inset)으로 이동시켜서 밖으로 나가지 않게 함
-                    topLeft = Offset(inset, inset),
-                    size = arcSize,
-                    style = Stroke(width = strokeWidthPx, cap = StrokeCap.Round)
-                )
-            }
+                    // 파란색 진행 선
+                    drawArc(
+                        color = blue900,
+                        startAngle = -90F,
+                        sweepAngle = 360F * progress,
+                        useCenter = false,
+                        // 시작점을 (inset, inset)으로 이동시켜서 밖으로 나가지 않게 함
+                        topLeft = Offset(inset, inset),
+                        size = arcSize,
+                        style = Stroke(width = strokeWidthPx, cap = StrokeCap.Round)
+                    )
+                }
 
-            Text(
-                text = String.format(Locale.getDefault(), "%02d:%02d", duration.minutes, duration.seconds),
-                style = typography.displayLargeEmphasized,
-                color = black900,
-                modifier = Modifier
-                    .constrainAs(durationId) {
-                        top.linkTo(parent.top)
-                        end.linkTo(parent.end)
-                        bottom.linkTo(parent.bottom)
-                        start.linkTo(parent.start)
-                    }
-            )
-            Text(
-                text = name,
-                style = typography.titleLargeEmphasized,
-                color = black900,
-                modifier = Modifier
-                    .constrainAs(nameId) {
-                        top.linkTo(parent.top)
-                        end.linkTo(parent.end)
-                        bottom.linkTo(durationId.top, margin = 10.dp)
-                        start.linkTo(parent.start)
-                        verticalBias = 1F
-                    }
-            )
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .constrainAs(finishTimeId) {
-                        top.linkTo(durationId.bottom, margin = 40.dp)
-                        end.linkTo(parent.end)
-                        bottom.linkTo(parent.bottom)
-                        start.linkTo(parent.start)
-                        verticalBias = 0F
-                    }
-            ) {
-                val formatter = DateTimeFormatter.ofPattern("a h:mm", Locale.getDefault())
-                Icon(
-                    modifier = Modifier.size(14.dp),
-                    painter = painterResource(R.drawable.icon_14_bell),
-                    contentDescription = null,
-                    tint = black700
-                )
-                Spacer(modifier = Modifier.width(2.dp))
                 Text(
-                    text = finishTime.format(formatter),
-                    style = typography.labelLarge,
-                    color = black700,
+                    text = String.format(Locale.getDefault(), "%02d:%02d", duration.minutes, duration.seconds),
+                    style = typography.displayLargeEmphasized,
+                    color = black900,
+                    modifier = Modifier
+                        .constrainAs(durationId) {
+                            top.linkTo(parent.top)
+                            end.linkTo(parent.end)
+                            bottom.linkTo(parent.bottom)
+                            start.linkTo(parent.start)
+                        }
+                )
+                Text(
+                    text = name,
+                    style = typography.titleLargeEmphasized,
+                    color = black900,
+                    modifier = Modifier
+                        .constrainAs(nameId) {
+                            top.linkTo(parent.top)
+                            end.linkTo(parent.end)
+                            bottom.linkTo(durationId.top, margin = 10.dp)
+                            start.linkTo(parent.start)
+                            verticalBias = 1F
+                        }
+                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .constrainAs(finishTimeId) {
+                            top.linkTo(durationId.bottom, margin = 40.dp)
+                            end.linkTo(parent.end)
+                            bottom.linkTo(parent.bottom)
+                            start.linkTo(parent.start)
+                            verticalBias = 0F
+                        }
+                ) {
+                    val formatter = DateTimeFormatter.ofPattern("a h:mm", Locale.getDefault())
+                    Icon(
+                        modifier = Modifier.size(14.dp),
+                        painter = painterResource(R.drawable.icon_14_bell),
+                        contentDescription = null,
+                        tint = black700
+                    )
+                    Spacer(modifier = Modifier.width(2.dp))
+                    Text(
+                        text = finishTime.format(formatter),
+                        style = typography.labelLarge,
+                        color = black700,
+                    )
+                }
+
+            }
+        }
+    }
+
+    data class ControlBox(
+        val timerState: TimerState
+    ) {
+        @Composable
+        operator fun invoke(
+            modifier: Modifier = Modifier,
+            onClickRemove: () -> Unit = {},
+            onClickControl: (TimerState) -> Unit = {}
+        ) {
+            Row(
+                modifier = modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    modifier = Modifier
+                        .widthIn(min = 120.spToDp)
+                        .clip(RoundedCornerShape(23.dp))
+                        .clickable { onClickRemove() }
+                        .background(color = black200)
+                        .padding(vertical = 13.spToDp),
+                    text = stringResource(R.string.timer_running_screen_timer_remove),
+                    style = typography.labelLargeEmphasized,
+                    color = black900,
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.width(20.dp))
+                val (background, textId, color) = when (timerState) {
+                    TimerState.Running -> {
+                        Triple(
+                            red600, R.string.timer_running_screen_timer_pause, white
+                        )
+                    }
+                    TimerState.Paused -> {
+                        Triple(
+                            blue900, R.string.timer_running_screen_timer_resume, white
+                        )
+                    }
+                }
+                Text(
+                    modifier = Modifier
+                        .widthIn(min = 120.spToDp)
+                        .clip(RoundedCornerShape(23.dp))
+                        .clickable { onClickControl(timerState) }
+                        .background(color = background)
+                        .padding(vertical = 13.spToDp),
+                    text = stringResource(textId),
+                    style = typography.labelLargeEmphasized,
+                    color = color,
+                    textAlign = TextAlign.Center
                 )
             }
-
         }
     }
-}
 
-data class ControlBox(
-    val timerState: TimerState
-) {
-    @Composable
-    operator fun invoke(
-        modifier: Modifier = Modifier,
-        onClickRemove: () -> Unit = {},
-        onClickControl: (TimerState) -> Unit = {}
+    data class SubTimer(
+        val timerState: TimerState
     ) {
-        Row(
-            modifier = modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Text(
-                modifier = Modifier
-                    .widthIn(min = 120.spToDp)
-                    .clip(RoundedCornerShape(23.dp))
-                    .clickable { onClickRemove() }
-                    .background(color = black200)
-                    .padding(vertical = 13.spToDp),
-                text = stringResource(R.string.timer_running_screen_timer_remove),
-                style = typography.labelLargeEmphasized,
-                color = black900,
-                textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.width(20.dp))
-            val (background, textId, color) = when (timerState) {
-                TimerState.Running -> {
-                    Triple(
-                        red600, R.string.timer_running_screen_timer_pause, white
-                    )
-                }
-                TimerState.Paused -> {
-                    Triple(
-                        blue900, R.string.timer_running_screen_timer_resume, white
-                    )
-                }
-            }
-            Text(
-                modifier = Modifier
-                    .widthIn(min = 120.spToDp)
-                    .clip(RoundedCornerShape(23.dp))
-                    .clickable { onClickControl(timerState) }
-                    .background(color = background)
-                    .padding(vertical = 13.spToDp),
-                text = stringResource(textId),
-                style = typography.labelLargeEmphasized,
-                color = color,
-                textAlign = TextAlign.Center
-            )
+        @Composable
+        operator fun invoke() {
+
         }
-    }
-}
-
-data class SubTimer(
-    val timerState: TimerState
-) {
-    @Composable
-    operator fun invoke() {
-
     }
 }
 
@@ -305,15 +320,15 @@ data class SubTimer(
 @Preview(showBackground = true)
 fun NonSubTimerPreview() {
     NioTheme {
-        TimerRunningScreen(TimerState.Running)(
-            mainTimer = MainTimer(
+        TimerRunningScreen(
+            mainTimer = TimerRunningScreen.MainTimer(
                 name = "name",
                 progress = 0.5F,
                 duration = 10.minutes,
                 finishTime = LocalDateTime.now(),
                 timerState = TimerState.Running
             ),
-            controlBox = ControlBox(
+            controlBox = TimerRunningScreen.ControlBox(
                 timerState = TimerState.Running
             )
         )

@@ -29,7 +29,6 @@ ktorClientContentNegotiation = "3.3.0"
 ktorClientCore = "3.3.0"
 ktorClientLogging = "3.3.0"
 lifecycle = "2.9.3"
-lifecycleRuntimeKtx = "2.9.3"
 lifecycleViewmodelNav3 = "2.10.0"
 material = "1.13.0"
 materialIcon = "1.7.8"
@@ -56,7 +55,8 @@ androidx-glance-appwidget-preview = { module = "androidx.glance:glance-appwidget
 androidx-glance-material3 = { module = "androidx.glance:glance-material3", version.ref = "glance" }
 androidx-glance-preview = { module = "androidx.glance:glance-preview", version.ref = "glance" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-service = { group = "androidx.lifecycle", name = "lifecycle-service", version.ref = "lifecycle" }
 androidx-material-icons-core = { module = "androidx.compose.material:material-icons-core", version.ref = "materialIcon" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }

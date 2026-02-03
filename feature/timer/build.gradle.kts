@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.feature)
+    id("kotlin-parcelize")
 }
 
 android {
@@ -10,4 +11,5 @@ dependencies {
     implementation(libs.rxjava)
     implementation(libs.rxandroid)
     implementation(libs.kotlinx.coroutines.rx3)
+    implementation(libs.androidx.lifecycle.service)
 }

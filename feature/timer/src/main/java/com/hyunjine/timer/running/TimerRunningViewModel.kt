@@ -1,5 +1,6 @@
 package com.hyunjine.timer.running
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hyunjine.common.log.wlog
 import com.hyunjine.common.util.BaseViewModel
@@ -27,6 +28,7 @@ import kotlinx.coroutines.flow.runningReduce
 import kotlinx.coroutines.flow.takeWhile
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.asFlow
+import kotlinx.serialization.Serializable
 import java.time.LocalDateTime
 import java.util.concurrent.TimeUnit
 import kotlin.inc
@@ -43,7 +45,6 @@ class TimerRunningViewModel @AssistedInject constructor(
     }
 
     private val uiEvent = MutableSharedFlow<TimerRunningScreenEvent>()
-
 
 //    @OptIn(ExperimentalCoroutinesApi::class)
 //    val timerState: StateFlow<TimerState> = merge(

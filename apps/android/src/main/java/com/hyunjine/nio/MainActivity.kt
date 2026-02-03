@@ -89,11 +89,7 @@ fun NioApp(
                     modifier = modifier.statusBarsPadding(),
                     onBack = { backStack.removeLastOrNull() },
                     onTimerSelected = {
-                        backStack.add(
-                            TimerRunningScreen(
-                                timerState = it.state
-                            )
-                        )
+                        backStack.add(TimerRunningScreen)
                     }
                 )
             }
