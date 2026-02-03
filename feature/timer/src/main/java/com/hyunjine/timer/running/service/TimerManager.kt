@@ -1,5 +1,6 @@
 package com.hyunjine.timer.running.service
 
+import com.hyunjine.common.extension.seconds
 import com.hyunjine.timer.main.model.TimerState
 import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.CoroutineScope
@@ -24,7 +25,8 @@ private sealed interface Event {
     data class Start(
         val id: Int,
         val name: String,
-        val wholeDuration: Duration
+        val wholeDuration: Duration,
+        val startTime: LocalDateTime
     ) : Event
 
     data object Resume : Event
@@ -45,7 +47,6 @@ object TimerManager {
             is Event.Start, is Event.Resume -> Observable.interval(1, TimeUnit.SECONDS)
                 .map { e }
                 .asFlow()
-
             else -> flowOf(e)
         }
     }.runningFold<Event, TimerInfo?>(null) { info, event ->
@@ -59,16 +60,21 @@ object TimerManager {
                     state = TimerState.Running,
                     wholeDuration = event.wholeDuration,
                     currentDuration = event.wholeDuration,
-                    finishTime = LocalDateTime.now()
+                    finishTime = event.startTime.plusSeconds(event.wholeDuration.inWholeSeconds)
                 )
             }
-
             is Event.Resume -> {
                 requireNotNull(info)
-                info.copy(currentDuration = info.currentDuration - 1.seconds)
+                info.copy(
+                    state = TimerState.Running,
+                    currentDuration = info.currentDuration - 1.seconds,
+                    finishTime = LocalDateTime.now().plusSeconds(info.currentDuration.inWholeSeconds)
+                )
             }
-
-            is Event.Pause -> info
+            is Event.Pause -> {
+                requireNotNull(info)
+                info.copy(state = TimerState.Paused)
+            }
             is Event.Finish -> null
         }
     }.stateIn(scope = CoroutineScope(Dispatchers.Main), started = SharingStarted.Eagerly, null)
@@ -81,7 +87,7 @@ object TimerManager {
         if (runningTimer.value != null) {
             return false
         }
-        event.emit(Event.Start(id = id, name = name, wholeDuration = wholeDuration))
+        event.emit(Event.Start(id = id, name = name, wholeDuration = wholeDuration, startTime = LocalDateTime.now()))
         true
     }
 
